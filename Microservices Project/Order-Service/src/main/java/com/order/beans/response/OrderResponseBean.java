@@ -20,10 +20,8 @@ public class OrderResponseBean {
     private Double price;
     @JsonProperty(value = "product_list")
     private List<String> productList;
-    @JsonProperty(value = "date")
-    private LocalDateTime date;
-    @JsonProperty(value = "created_date")
-    private LocalDateTime createdDate;
+    @JsonProperty(value = "order_date")
+    private String orderDate;
     @JsonProperty(value = "is_order_cancelled")
     private Boolean isOrderCancelled;
 }

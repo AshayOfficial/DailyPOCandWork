@@ -1,0 +1,30 @@
+SAML (Security Assertions Markup Language) :
+Spring Boot version : 3.1.3
+Spring security version : 6+
+
+SAML2.0 :
+An IT Standard used for exch. of data for authent. and autho. between 2 different security domains.
+It consists of 2 parties :
+    1) IDP (Identity Provider) :
+        System entity used to create and manage the dta of user and also provide authentication services
+        for the applications relying on it.
+    2) Service provider :
+        It provides service protected by SAML2 Security.
+
+Img link For SAML Auth Workflow : https://miro.medium.com/v2/resize:fit:1100/format:webp/0*ufwmbFBfoWQWjxFd.png
+
+Working of SAML : (Refer above link for Img representation of SAML Working)
+    -> The request is made by user to its target resrc.
+    -> If the request made is authenticated, then  it directly redirects to the target resrc.
+    -> If it is not authenticated, then the web-app rsponds the browser with SAML request.
+    -> Then the browser sends this request to the IDP.
+    -> The IDP prompts the user to enter their creds.
+    -> Then it verifies the user and creates the SAML Response for the browser.
+    -> The Browser then sends this SAML Response to the Servce Provider.
+    -> The SP verifies the response Object sent by the browser.
+    -> If it succeeds, then the user is redirected to the target resrc or it is responded with 401 Unauthorized.
+
+Lets Configure the OKTA IDP :
+    -> Create free developer account i.e. Okta Developer Edition Service (if not). https://developer.okta.com/signup/
+    -> Go on Applications, under that "Create App Integrations". Select SAML2.0, give a name to your App
+    ->

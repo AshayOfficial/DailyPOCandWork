@@ -7,10 +7,11 @@ import com.product.constants.ProductConstants;
 import com.product.entity.Product;
 import com.product.exceptions.AlreadyExistsException;
 import com.product.exceptions.NoDataFoundException;
+import com.product.mapper.ProductEntityToResponseMapper;
+import com.product.mapper.ProductRequestBeanToEntityMapper;
 import com.product.repo.ProductRepo;
 import com.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,6 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepo productRepo;
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public CommonResponseBean getAllProducts() {
@@ -36,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductResponseBean> productResponseBeans = productList.stream()
                 .filter(product -> product.getActiveStatus().equals(Boolean.TRUE))
-                .map(product -> this.modelMapper.map(product, ProductResponseBean.class))
+                .map(product -> ProductEntityToResponseMapper.productEntityToResponseBean.apply(product))
                 .toList();
 
         if (productResponseBeans.isEmpty())
@@ -62,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("PRODUCT FETCHED BY ID");
         return CommonResponseBean.builder()
                 .status(Boolean.TRUE)
-                .data(this.modelMapper.map(optionalProduct.get(), ProductResponseBean.class))
+                .data(ProductEntityToResponseMapper.productEntityToResponseBean.apply(optionalProduct.get()))
                 .build();
 
     }
@@ -71,14 +70,14 @@ public class ProductServiceImpl implements ProductService {
     public CommonResponseBean addProduct(ProductRequestBean productRequestBean) {
         log.info("ADDING PRODUCT");
         if (productRequestBean.getId() == null) {
-            Product mappedProduct = this.modelMapper.map(productRequestBean, Product.class);
+            Product mappedProduct = ProductRequestBeanToEntityMapper.INSTANCE.productRequestToEntity(productRequestBean);
             mappedProduct.setCreatedDate(LocalDateTime.now());
             mappedProduct.setActiveStatus(Boolean.TRUE);
             Product product = this.productRepo.saveAndFlush(mappedProduct);
             log.info("PRODUCT ADDED");
             return CommonResponseBean.builder()
                     .status(Boolean.TRUE)
-                    .data(this.modelMapper.map(product, ProductResponseBean.class))
+                    .data(ProductEntityToResponseMapper.productEntityToResponseBean.apply(product))
                     .build();
         }
 
@@ -95,16 +94,15 @@ public class ProductServiceImpl implements ProductService {
         if (optionalProduct.isEmpty())
             throw new NoDataFoundException(ProductConstants.NO_DATA_FOUND);
 
-        Product mappedProduct = this.modelMapper.map(productRequestBean, Product.class);
+        Product mappedProduct = ProductRequestBeanToEntityMapper.INSTANCE.productRequestToEntity(productRequestBean);
         mappedProduct.setUpdatedDate(LocalDateTime.now());
         mappedProduct.setActiveStatus(Boolean.TRUE);
         Product productSaved = this.productRepo.saveAndFlush(mappedProduct);
-        ProductResponseBean productResponseBean = this.modelMapper.map(productSaved, ProductResponseBean.class);
 
         log.info("PRODUCT DETAILS UPDATED");
         return CommonResponseBean.builder()
                 .status(Boolean.TRUE)
-                .data(productResponseBean)
+                .data(ProductEntityToResponseMapper.productEntityToResponseBean.apply(productSaved))
                 .build();
     }
 
@@ -117,8 +115,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = optionalProduct.get();
         product.setActiveStatus(Boolean.FALSE);
-        Product productSaved = this.productRepo.saveAndFlush(product);
-        this.modelMapper.map(productSaved, ProductResponseBean.class);
+        this.productRepo.saveAndFlush(product);
 
         log.info("PRODUCT DELETED SUCCESSFULLY");
         return CommonResponseBean.builder()

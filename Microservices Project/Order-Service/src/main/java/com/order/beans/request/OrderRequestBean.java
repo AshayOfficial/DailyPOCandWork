@@ -21,10 +21,6 @@ public class OrderRequestBean {
     private Double price;
     @JsonProperty(value = "product_list")
     private List<String> productList;
-    @JsonProperty(value = "order_date")
-    private LocalDateTime orderDate;
-    @JsonProperty(value = "created_date")
-    private LocalDateTime createdDate;
     @JsonProperty(value = "is_order_cancelled")
     private Boolean isOrderCancelled;
 }

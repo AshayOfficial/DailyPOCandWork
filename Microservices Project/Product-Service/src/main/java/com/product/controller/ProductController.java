@@ -22,7 +22,7 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.getAllProducts());
     }
 
-    @GetMapping("/product-id")
+    @GetMapping("/{product-id}")
     public  ResponseEntity<CommonResponseBean> getProductById(@PathVariable(name = "product-id") Long productId) {
         log.info("INSIDE GET BY ID API CONTROLLER");
         return ResponseEntity.ok(this.productService.getProductById(productId));

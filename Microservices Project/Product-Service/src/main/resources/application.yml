@@ -1,12 +1,16 @@
 
 server:
   port: 9001
-  servlet:
-    context-path: /products
+#  servlet:
+#    context-path: /products
 
 spring:
   application:
     name: PRODUCT-SERVICE
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
   datasource:
     url: jdbc:mysql://localhost:3306/product
     username: root

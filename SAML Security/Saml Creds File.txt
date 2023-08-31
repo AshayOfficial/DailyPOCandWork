@@ -1,0 +1,54 @@
+SSO url : http://localhost:8080/login/saml2/sso/okta-saml
+	  https://dev-14476081.okta.com/app/dev-14476081_appsamldemo_1/exkayzkgzimFqPRSy5d7/sso/saml
+
+Audiennce URI : http://localhost:8080/saml2/service-provider-metadata/okta-saml
+
+Povider URI : http://www.okta.com/exkayzkgzimFqPRSy5d7
+
+temp pass : 6Hf7ZZpZ
+
+
+SAML Assertion : 
+<?xml version="1.0" encoding="UTF-8"?>
+<saml2:Assertion ID="id31740863364551745519994284" IssueInstant="2023-08-25T06:58:11.737Z" Version="2.0"
+    xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">
+    <saml2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity"/>
+    <saml2:Subject>
+        <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">userName</saml2:NameID>
+        <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+            <saml2:SubjectConfirmationData NotOnOrAfter="2023-08-25T07:03:12.018Z" Recipient="http://localhost:8080/login/saml2/sso/okta-saml"/>
+        </saml2:SubjectConfirmation>
+    </saml2:Subject>
+    <saml2:Conditions NotBefore="2023-08-25T06:53:12.018Z" NotOnOrAfter="2023-08-25T07:03:12.018Z">
+        <saml2:AudienceRestriction>
+            <saml2:Audience>http://localhost:8080/saml2/service-provider-metadata/okta-saml</saml2:Audience>
+        </saml2:AudienceRestriction>
+    </saml2:Conditions>
+    <saml2:AuthnStatement AuthnInstant="2023-08-25T06:58:11.737Z">
+        <saml2:AuthnContext>
+            <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml2:AuthnContextClassRef>
+        </saml2:AuthnContext>
+    </saml2:AuthnStatement>
+</saml2:Assertion>
+
+
+
+Metadat-idp-okta.xml : 
+
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor entityID="http://www.okta.com/exkayzkgzimFqPRSy5d7" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"><md:IDPSSODescriptor WantAuthnRequestsSigned="false" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"><md:KeyDescriptor use="signing"><ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#"><ds:X509Data><ds:X509Certificate>MIIDqDCCApCgAwIBAgIGAYorfKcJMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJVUzETMBEG
+A1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsGA1UECgwET2t0YTEU
+MBIGA1UECwwLU1NPUHJvdmlkZXIxFTATBgNVBAMMDGRldi0xNDQ3NjA4MTEcMBoGCSqGSIb3DQEJ
+ARYNaW5mb0Bva3RhLmNvbTAeFw0yMzA4MjUwNjU3MjRaFw0zMzA4MjUwNjU4MjRaMIGUMQswCQYD
+VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzENMAsG
+A1UECgwET2t0YTEUMBIGA1UECwwLU1NPUHJvdmlkZXIxFTATBgNVBAMMDGRldi0xNDQ3NjA4MTEc
+MBoGCSqGSIb3DQEJARYNaW5mb0Bva3RhLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBAMD/3fIbcAa94CiRVuHHtlAsGjluqjv8h7ykXdAoHSTqc3ZscgiPJWupr6nxHx4Oj590BkDS
+O9fY/j4mT+Gv2s/DGjp4kRbaNOXyucBe2ZVIsYKs57Bf5bmnVOs2CzxOY11TCh1m+I94KLi5Q4Fu
++ibloQWlCcoBTmYQxJQzsfdxvAh2q21X10N8B+DNSuDPW6s5OUiR1h+Y71ec0nuofwnvASCtBWH4
+pno2GHvRunI8/4ibwQ1RIENcb/YpHpiMmdd3RuYDmpRg89nNXaodgZGnkref5HHCTLqVh4Atz/5N
+FjE7QPbMCjB2MdfwivX6gEX+JQkdPkM/gzPiODbP1aUCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEA
+APOZ0SQ0P/1cP9m0o2E4aj/D1Q/BxFWfeb7m7HL4fsHtEjN9lir8Yuamh7ziQBS7Kf+NRNz//+wI
+9eIL2qLIenNpiWH++Ad3kIJNHnwRc9GUCtmG1dG4fnZeAbrw6VjRiJ6SlZp9p4D4x32+tR+yMpK2
+L9Vktjv8+Yyhcuq0BcqSxhY7pa5te6bm9j6co+cdAhMSWAnIZ/NuH3sKB7QR/ZRz8JzwClqZB7ld
+8hZf40YSQH/gZAR+nyAOGTcUIXoA5nD9nOh1TEFrZl447SSNeYPp7oGmpEoruwMTmJyLNTBKynvb
+IcO2IhLISpBDnKASn5ncAk+mJCXcLUURQWtoTw==</ds:X509Certificate></ds:X509Data></ds:KeyInfo></md:KeyDescriptor><md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat><md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat><md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://dev-14476081.okta.com/app/dev-14476081_appsamldemo_1/exkayzkgzimFqPRSy5d7/sso/saml"/><md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://dev-14476081.okta.com/app/dev-14476081_appsamldemo_1/exkayzkgzimFqPRSy5d7/sso/saml"/></md:IDPSSODescriptor></md:EntityDescriptor>

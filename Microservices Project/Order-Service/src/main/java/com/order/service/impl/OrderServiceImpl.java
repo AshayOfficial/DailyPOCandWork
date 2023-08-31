@@ -9,10 +9,11 @@ import com.order.constants.OrderConstants;
 import com.order.entity.Order;
 import com.order.exceptions.AlreadyExistsException;
 import com.order.exceptions.NoDataFoundException;
+import com.order.mapper.OrderEntityToResponseMapper;
+import com.order.mapper.OrderRequestToEntityMapper;
 import com.order.repo.OrderRepo;
 import com.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepo orderRepo;
     @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Override
@@ -39,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderResponseBean> orderResponseBeanList = orderList.stream()
                 .filter(order -> order.getIsOrderCancelled().equals(Boolean.FALSE))
-                .map(order -> this.modelMapper.map(order, OrderResponseBean.class))
+                .map(order -> OrderEntityToResponseMapper.orderEntityToOrderResponseBean.apply(order))
                 .toList();
 
         if (orderResponseBeanList.isEmpty())
@@ -63,10 +62,9 @@ public class OrderServiceImpl implements OrderService {
             throw new NoDataFoundException(OrderConstants.NO_DATA_FOUND_EXCEPTION_MESSAGE);
 
         log.info("ORDER FETCHED BY ID SUCCESSFUL");
-        OrderResponseBean orderResponseBean = this.modelMapper.map(optionalOrder.get(), OrderResponseBean.class);
         return CommonResponseBean.builder()
                 .status(Boolean.TRUE)
-                .data(orderResponseBean)
+                .data(OrderEntityToResponseMapper.orderEntityToOrderResponseBean.apply(optionalOrder.get()))
                 .build();
     }
 
@@ -76,18 +74,16 @@ public class OrderServiceImpl implements OrderService {
         if (orderRequestBean.getId() != null)
             throw new AlreadyExistsException(OrderConstants.ALREADY_EXISTS_EXCEPTION_MESSAGE);
 
-        Order order = this.modelMapper.map(orderRequestBean, Order.class);
+        Order order = OrderRequestToEntityMapper.INSTANCE.OrderRequestBeanToOrderEntity(orderRequestBean);
+        order.setIsOrderCancelled(Boolean.FALSE);
         order.setOrderDate(LocalDateTime.now());
         order.setCreatedDate(LocalDateTime.now());
         Order orderSaved = this.orderRepo.save(order);
-        if (orderSaved.getOrderPrice()== 14000)
-            throw new NoDataFoundException("jjj");
-        OrderResponseBean orderResponseBean = this.modelMapper.map(orderSaved, OrderResponseBean.class);
 
         log.info("ORDER PLACED SUCCESSFULLY");
         return CommonResponseBean.builder()
                 .status(Boolean.TRUE)
-                .data(orderResponseBean)
+                .data(OrderEntityToResponseMapper.orderEntityToOrderResponseBean.apply(orderSaved))
                 .build();
     }
 
@@ -98,16 +94,15 @@ public class OrderServiceImpl implements OrderService {
         if (optionalOrder.isEmpty())
             throw new NoDataFoundException(OrderConstants.NO_DATA_FOUND_EXCEPTION_MESSAGE);
 
-        Order order = this.modelMapper.map(orderRequestBean, Order.class);
+        Order order = OrderRequestToEntityMapper.INSTANCE.OrderRequestBeanToOrderEntity(orderRequestBean);
         order.setOrderDate(LocalDateTime.now());
         order.setUpdatedDate(LocalDateTime.now());
         Order orderSaved = this.orderRepo.saveAndFlush(order);
-        OrderResponseBean orderResponseBean = this.modelMapper.map(orderSaved, OrderResponseBean.class);
 
         log.info("ORDER UPDATED SUCCESSFULLY");
         return CommonResponseBean.builder()
                 .status(Boolean.TRUE)
-                .data(orderResponseBean)
+                .data(OrderEntityToResponseMapper.orderEntityToOrderResponseBean.apply(orderSaved))
                 .build();
     }
 
